@@ -18,7 +18,7 @@
         top: 10px;
         color: red;
         display:none;
-    }
+    } 
 </style>
 @endsection
 
@@ -141,7 +141,7 @@ $ultimo_elemento = end($subcadenas);
                                 <div class="row m-0">
                                     
                                     <div class="col-12 p-0">
-                                        <fieldset id="txtCboAula" class="form-group position-relative has-icon-left m-0">
+                                        <fieldset class="form-group position-relative has-icon-left m-0">
                                             <select class="form-control" id="cboTurno">
                                                 <option value="">Turno</option>
                                                 <option value="Mañana">Mañana</option>
@@ -151,7 +151,7 @@ $ultimo_elemento = end($subcadenas);
                                             <div class="form-control-position">
                                                 <i class="feather icon-clock" style="color: #C2C6DC;"></i>
                                             </div>
-                                            <!-- <ix class="_tipo feather icon-info cursor-pointer filtros animate__animated animate__bounce" data-toggle="tooltip" data-placement="top" title="" data-original-title="" style="display: none;"></ix> -->
+                                            <ix class="_turno feather icon-info cursor-pointer filtros animate__animated animate__bounce" data-toggle="tooltip" data-placement="top" title="" data-original-title="" style="display: none;"></ix>
                                         </fieldset>
                                     </div>
                                     <div class="col-6 p-0">
@@ -160,7 +160,7 @@ $ultimo_elemento = end($subcadenas);
                                             <div class="form-control-position">
                                                 <i class="feather">Ini.</i>
                                             </div>
-                                            <!-- <ix class="_name feather icon-info cursor-pointer filtros animate__animated animate__bounce" data-toggle="tooltip" data-placement="top" title="" data-original-title="" style="display: none;"></ix> -->
+                                            <ix class="_horaInicio feather icon-info cursor-pointer filtros animate__animated animate__bounce" data-toggle="tooltip" data-placement="top" title="" data-original-title="" style="display: none;"></ix>
                                         </fieldset>
                                     </div>
                                     <div class="col-6 p-0">
@@ -169,7 +169,7 @@ $ultimo_elemento = end($subcadenas);
                                             <div class="form-control-position">
                                                 <i class="feather">Fin</i>
                                             </div>
-                                            <!-- <ix class="_name feather icon-info cursor-pointer filtros animate__animated animate__bounce" data-toggle="tooltip" data-placement="top" title="" data-original-title="" style="display: none;"></ix> -->
+                                            <ix class="_horaFinal feather icon-info cursor-pointer filtros animate__animated animate__bounce" data-toggle="tooltip" data-placement="top" title="" data-original-title="" style="display: none;"></ix>
                                         </fieldset>
                                     </div>
                                 </div>
@@ -180,7 +180,8 @@ $ultimo_elemento = end($subcadenas);
                 Es importante definir los turnos de estudio que la institución dispondrá, estos turnos serán utilizados más adelante en el momento de crear los horarios.
             </div>
             <div class="modal-footer" style="border-color: rgb(255 255 255 / 25%);">
-                <button type="button" class="btn btn-primary waves-effect waves-light" data-dismiss="modal">Accept</button>
+                <button type="button" id="btnGuardarTurno" class="btn btn-primary waves-effect waves-light">Guardar</button>
+                <button type="button" class="btn btn-danger waves-effect waves-light" data-dismiss="modal">Salir</button>
             </div>
         </div>
     </div>
@@ -199,56 +200,7 @@ $ultimo_elemento = end($subcadenas);
     </div>
     <div class="card-body p-0">
         <hr class="m-0">
-
-        <div class="card mb-0 micard">
-            <div class="card-content">
-                <div class="card-body p-0">
-                    <div class="bd-example-row">
-                        <div class="row m-0">
-                            <div class="col-4" style="font-size: 0.8rem;">
-                                <b>Tueno:</b>
-                                <p class="m-0">mañana</p>
-                            </div>
-                            <div class="col-6" style="font-size: 0.8rem;">
-                                <b>Hora:</b>
-                                <p class="m-0">Inicio: 07:00</p>
-                                <p class="m-0">Inicio: 13:00</p>
-                            </div>
-                            <div class="col-2 d-flex align-items-center justify-content-center">
-                                <div class="d-flex justify-content-center">
-                                    <button type="button" class="btn btn-icon btn-flat-danger waves-effect waves-light" data-id="ZeFlDMxqYsE0nktRbSoO48"><i class="feather icon-trash-2"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card mb-0 micard">
-            <div class="card-content">
-                <div class="card-body p-0">
-                    <div class="bd-example-row">
-                        <div class="row m-0">
-                            <div class="col-4" style="font-size: 0.8rem;">
-                                <b>Tueno:</b>
-                                <p class="m-0">tarde</p>
-                            </div>
-                            <div class="col-6" style="font-size: 0.8rem;">
-                                <b>Hora:</b>
-                                <p class="m-0">Inicio: 07:00</p>
-                                <p class="m-0">Inicio: 13:00</p>
-                            </div>
-                            <div class="col-2 d-flex align-items-center justify-content-center">
-                                <div class="d-flex justify-content-center">
-                                    <button type="button" class="btnEliminar btn btn-icon btn-flat-danger waves-effect waves-light" data-id="ZeFlDMxqYsE0nktRbSoO48"><i class="feather icon-trash-2"></i></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+        <div id="listaHorario"></div>
     </div>
 </div>
 

@@ -10,7 +10,7 @@
 
  */
 
-
+ 
 
 $module_namespace = "App\Modules\institucion\Controllers"; 
  
@@ -21,6 +21,7 @@ Route::prefix('/institucion')->namespace($module_namespace)->group(function () {
     Route::group(['middleware' => ['web']], function () {
 
         Route::get('/', "institucionContoller@index");
+        Route::post('/admin', "institucionContoller@admin");
 
         Route::get('/aula', "aulaContoller@index");
         Route::post('/aula', "aulaContoller@admin");
