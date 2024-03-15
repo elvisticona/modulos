@@ -22,7 +22,7 @@ Route::prefix('/institucion')->namespace($module_namespace)->group(function () {
 
         Route::get('/', "institucionContoller@index");
         Route::post('/admin', "institucionContoller@admin");
-
+ 
         Route::get('/aula', "aulaContoller@index");
         Route::post('/aula', "aulaContoller@admin");
 

@@ -16,7 +16,7 @@ class institucionContoller extends Controller
     function index(Request $request) {
         return view('institucion::institucion');
     }
-
+    
     function admin(Request $request) {
         $this->validate($request, [
             '_turno' => 'required',

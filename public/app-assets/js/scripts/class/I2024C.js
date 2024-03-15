@@ -5,7 +5,7 @@ $(document).ready(function() {
         $('body').find('ix').hide();
         $.ajax({
             url:'/institucion/admin',
-            method:"POST",
+            method:"POST", 
             data:valores,
             dataType:'JSON',
             success:function(array){

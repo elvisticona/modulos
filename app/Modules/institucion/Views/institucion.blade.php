@@ -162,7 +162,7 @@ $ultimo_elemento = end($subcadenas);
                                             </div>
                                             <ix class="_horaInicio feather icon-info cursor-pointer filtros animate__animated animate__bounce" data-toggle="tooltip" data-placement="top" title="" data-original-title="" style="display: none;"></ix>
                                         </fieldset>
-                                    </div>
+                                    </div> 
                                     <div class="col-6 p-0">
                                         <fieldset class="form-group position-relative has-icon-left m-0">
                                             <input type="time" id="txtHoraFinal" name="txtHoraFinal" class="form-control">
