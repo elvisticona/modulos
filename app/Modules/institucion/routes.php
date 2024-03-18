@@ -28,6 +28,7 @@ Route::prefix('/institucion')->namespace($module_namespace)->group(function () {
 
         Route::get('/curso', "cursoContoller@index");
         Route::post('/curso', "cursoContoller@admin");
+        Route::post('/curso/horario', "cursoContoller@horario");
  
     });
 });

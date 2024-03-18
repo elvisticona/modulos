@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-    valores='', arrayDocentes=[];
+    valores='';
     function informacion(){
         // $('body').find('ix').hide();
         $.ajax({
@@ -39,50 +39,47 @@ $(document).ready(function() {
                     var ulAulas=$('#ulAulas').append('');
                     for (let i = 0; i < array.length; i++) {
                         ulAulas.append
-                        ('<li id="liCheckbox_'+array[i].token+'" class="list-group-item" style="border-top: 0;"><div class="d-flex justify-content-between">'+
+                        ('<li id="liCheckbox_'+array[i].token+'" class="list-group-item pb-50" style="border-top: 0;border-bottom: solid;"><div class="d-flex justify-content-between mb-25">'+
                             '<fieldset><div class="vs-checkbox-con vs-checkbox-primary">'+
                                     '<input id="checkbox_'+array[i].token+'" class="listaCheckbox" type="checkbox" value="false" data-id="'+array[i].token+'">'+
                                     '<span class="vs-checkbox vs-checkbox-sm"><span class="vs-checkbox--check"><i class="vs-icon feather icon-check"></i></span></span>'+
                                     '<span class="">'+array[i].denominacion+'</span>'+
                             '</div></fieldset>'+
                             '<div class=""><div class="badge badge-primary"><span>'+array[i].seccion+'</span></div></div>'+
-                        '</div></li>');
+                        '</div>'+
+                            '<select id="idAula_'+array[i].token+'" class="select2 form-control losDocentes mb-1" disabled="true" style="border: solid 1px #7e7e7e;">'+
+                                '<option value="">Docente:</option>'+
+                            '</select>'+
+                            '<div id="datoDocente_'+array[i].token+'" class="infoDocente p-25 d-flex justify-content-start align-items-center animate__animated animate__bounceIn mt-50" style="display:none !important;">'+
+                                '<div class="avatar mr-50">'+
+                                    '<img id="docenteImagen_'+array[i].token+'" src="../../../app-assets/images/portrait/small/administrador.jpg" alt="avtar img holder" height="35" width="35">'+
+                                '</div>'+
+                                '<div class="user-page-info desborde">'+
+                                    '<h6 id="docenteMail_'+array[i].token+'" class="mb-0">ticona.ojeda@gmail.com</h6> <span id="docenteTelefono_'+array[i].token+'" class="font-small-2"><i class="feather icon-phone-call"></i> 939 277 175</span>'+
+                                '</div>'+
+                            '</div>'+
+                        '</li>');
                         if(i==array.length-1){
-                            listaDocentes();
-                         }
+                            setTimeout(function() { //traemos los cursos
+                                valores={_idCurso:0,_denominacion:"=>",_descripcion:"=>",_estado:0,_idDocente:0,_comodinInt:0,_rows:0,_accion:"listar_turnos_Horario",'_token':$('input[name="_token"]').val()};
+                                informacion();
+                            }, 4000);
+                        } 
                     }
                 }else if(array.length !=0 && array[0].tipo==5){// actaiza las aulas sin asignar
-                    $('#listaAulasDocente').html('');
+                    listaDocentes();
+                    $('#SpDenoCurso').html(array[0].denoCurso);
+                    $('.losDocentes').prop("disabled", true);
+                    $('.infoDocente').attr('style','display:none !important;');
+                    $("#cboAula").html('<option value="">Aula</option>');
                     if(array[0].coderror==0){
                         for (let i = 0; i < array.length; i++) {
                             $("#checkbox_"+array[i].token).prop("checked", true);
-                            $('#listaAulasDocente').append
-                            ('<div class="card mb-1 micard animate__animated"><div class="card-content"><div class="card-body p-0"><div class="bd-example-row"><div class="row m-0">'+
-                                '<div class="col-12 col-sm-6" style="font-size: 0.8rem;">'+
-                                    '<b>Aula:</b>'+
-                                    '<p class="m-0">'+array[i].aulas+'</p>'+
-                                '</div>'+
-                                '<div class="col-12 col-sm-6" style="font-size: 0.8rem;">'+
-                                    '<select id="idAula_'+array[i].token+'" class="select2 form-control">'+
-                                        '<option value="">Docente:</option>'+
-                                    '</select>  '+
-                                '</div>'+
-                            '</div></div></div></div></div>');
-
-                            for (let x = 0; x < arrayDocentes.length; x++) {
-                                $('#idAula_'+array[i].token).append('<option value="'+arrayDocentes[x].idDocente+'">'+arrayDocentes[x].nombre+'</option>')
-                            }
-
-                            if(i==array.length-1){
-                                listaDoscentesCurso();
-                            }
+                            $("#idAula_"+array[i].token).prop("disabled", false);
+                            $("#cboAula").append('<option value="'+array[i].token+'">'+array[i].aulas+'</option>');
                         }
-
-                        $(".select2").select2({
-                            dropdownAutoWidth: true,
-                            width: '100%'
-                          });
                     }
+
                 }else if(array.length !=0 && array[0].tipo==6){
                     if(array[0].coderror==0){
                         toastr.success(array[0].mensaje, 'En hora buena!');
@@ -98,21 +95,48 @@ $(document).ready(function() {
                     }else{
                         toastr.error(array[0].mensaje, 'Error!');
                     }
-                }else if(array.length !=0 && array[0].tipo==7){
-                    var nuevoObjeto;
+                }else if(array.length !=0 && array[0].tipo==7){ // traemos a todos os docentes y ponemos en los cbos
+                    $('.losDocentes').html('<option value="">Docente:</option>');
                     for (let i = 0; i < array.length; i++) {
-                        nuevoObjeto={idDocente:array[i].id, nombre:array[i].Docente};
-                        arrayDocentes.push(nuevoObjeto);
+                        $('.losDocentes').append('<option value="'+array[i].id+'">'+array[i].Docente+'</option>')
+                        if(i==array.length-1){
+                            listaDoscentesCurso();
+                        }  
                     }
+                    $(".select2").select2({
+                        dropdownAutoWidth: true,
+                        width: '100%'
+                    });
                 }else if(array.length !=0 && array[0].tipo==8){
                     if(array[0].coderror==0){
                         for (let i = 0; i < array.length; i++) {
+                            var atosDocenteAula=array[i].texto.split('?');
                             $('#idAula_'+array[i].token).select2({width: '100%'}).val(array[i].idAlumno).trigger('change.select2');
+
+                            $('#docenteImagen_'+array[i].token).attr('src',atosDocenteAula[0]);
+                            $('#docenteMail_'+array[i].token).html(atosDocenteAula[1]);
+                            $('#docenteTelefono_'+array[i].token).html(agregarEspacios(atosDocenteAula[2]));
+                            $('#datoDocente_'+array[i].token).show();
+                            
                         }
                     }
                     
                     if(vermodal==1){
                         $('#xlarge').modal('show');
+                    }
+                }else if(array.length !=0 && array[0].tipo==9){
+                    var comodinVarcharDocente=array[0].foto+'?'+array[0].email+'?'+array[0].phone;
+                    $('#docenteImagen_'+mi_idAula).attr('src',array[0].foto);
+                    $('#docenteMail_'+mi_idAula).html(array[0].email);
+                    $('#docenteTelefono_'+mi_idAula).html(array[0].phone);
+                    $('#datoDocente_'+mi_idAula).show();
+
+                    valores={_idCurso:0,_miTokenCurso:id_miTokenCurso,_miTokenAula:mi_idAula,_denominacion:"=>",_descripcion:"=>",_comodinVarchar:comodinVarcharDocente,_estado:0,_idDocente:array[0].id,_comodinInt:0,_rows:0,_accion:"asignar_aula_docente",'_token':$('input[name="_token"]').val()};
+                    informacion();
+                }else if(array.length !=0 && array[0].tipo==10){
+                    $('#cboTurnoHorario').html('<option value="">Turno</option>');
+                    for (let i = 0; i < array.length; i++) {
+                        $('#cboTurnoHorario').append('<option value="'+array[i].turno+"-"+array[i].horas+'">'+array[i].turno+'</option>');
                     }
                 }else{ 
                     $('#listaCard').html('<div class="card mb-1"><div class="card-content"><div class="card-body p-0"><div class="bd-example-row"><div class="row m-0">'+
@@ -176,6 +200,7 @@ $(document).ready(function() {
     });
 
     $('#ulAulas').on('click', 'input.listaCheckbox', function(){
+        var _this=$(this);
         var idAula=$(this).attr('data-id');
         if($('.micard').hasClass('caardSelected')==true){
             valores={_idCurso:0,_miTokenCurso:id_miTokenCurso,_miTokenAula:idAula,_denominacion:"=>",_descripcion:"=>",_estado:0,_idDocente:0,_comodinInt:0,_rows:0,_accion:"asignarCursoAula",'_token':$('input[name="_token"]').val()};
@@ -183,8 +208,15 @@ $(document).ready(function() {
             accion=3;
             $('.1divConfi_'+id_miTokenCurso).removeClass('d-flex');
             $('.2divConfi_'+id_miTokenCurso).show();
+
+            if($(_this).prop("checked")){
+                $("#idAula_"+idAula).prop("disabled", false);
+            }else{
+                $("#idAula_"+idAula).prop("disabled", true);
+                $('#datoDocente_'+idAula).attr('style','display:none !important;');
+            }
         }else{
-            toastr.error("Seleccione un aula", 'Error!');
+            toastr.error("Seleccione un curso", 'Error!');
         };
     });
 
@@ -270,9 +302,11 @@ $(document).ready(function() {
         vermodal=1;
     });
 
-    $('#listaAulasDocente').on('change', 'select.select2', function () {
-        var jqidAula=$(this).attr('id').split('_');
-        valores={_idCurso:0,_miTokenCurso:id_miTokenCurso,_miTokenAula:jqidAula[1],_denominacion:"=>",_descripcion:"=>",_estado:0,_idDocente:$(this).val(),_comodinInt:0,_rows:0,_accion:"asignar_aula_docente",'_token':$('input[name="_token"]').val()};
+    var mi_idAula=0;
+    $('#ulAulas').on('change', 'select.select2', function () {
+        var recuIdAula=$(this).attr('id').split('_');
+        mi_idAula=recuIdAula[1];
+        valores={_idCurso:0,_miTokenCurso:id_miTokenCurso,_miTokenAula:mi_idAula,_denominacion:"=>",_descripcion:"=>",_estado:0,_idDocente:$(this).val(),_comodinInt:0,_rows:0,_accion:"listar_dato_docente",'_token':$('input[name="_token"]').val()};
         informacion();
         accion=3;
     });
@@ -306,4 +340,101 @@ $(document).ready(function() {
                $(this).show();                
         });
     });
+
+    function agregarEspacios(numero) {
+        return numero.replace(/\D/g, '').replace(/(\d{3})(?=\d)/g, '$1 ');
+    }
+
+    //******************** */
+
+    var valoresHorario='';
+    function informacionHorario(){
+        $('body').find('ix').hide();
+        $.ajax({
+            url:'/institucion/curso/horario',
+            method:"POST", 
+            data:valoresHorario,
+            dataType:'JSON',
+            success:function(array){
+                if(array.length !=0 && array[0].tipo==1){
+                    if(array[0].coderror==0){ 
+                        toastr.success(array[0].mensaje, 'En hora buena!');
+                        $('.btnAgregarHorario').prop("disabled", false);
+
+                        addListaHorario(array);
+                    }else{
+                        toastr.error(array[0].mensaje, 'Error!');
+                        $('.'+diaSemana).removeClass('active');
+                        $('.btnAgregarHorario').prop("disabled", false);
+                    }
+                }else if(array.length !=0 && array[0].tipo==2){
+                    $('#dtbHorario td').html("");
+                    addListaHorario(array);
+                }else{ 
+                    $('#dtbHorario td').html("");
+                }
+            },error:function(msj){
+                var resp_c = msj.responseJSON.errors;
+                $.each(resp_c,function(key,value){
+                    var iderror=value[0].split(','); $('.'+iderror[0]).show();
+                    $('.'+iderror[0]).attr('data-original-title', iderror[1])
+                    $('.'+iderror[0]).addClass("animate__bounce");
+                    setTimeout(function() { $('.'+iderror[0]).removeClass("animate__bounce"); }, 2000);
+                });
+                $('.'+diaSemana).removeClass('active');
+                $('.btnAgregarHorario').prop("disabled", false);
+            }
+        })
+    };
+
+    var diaSemana="";
+    $('input.btnAgregarHorario').on('change', function () {
+        diaSemana=$(this).attr('id');
+        var elTurno=$('#cboTurnoHorario').val().split('-');
+     
+        valoresHorario={_idHorario:0, _turno:elTurno[0], _diaSemana:diaSemana, _horaInicio:$('#txtHoraInicio').val(), _horaFinal:$('#txtHoraFinal').val(), _miTokenAula:$('#cboAula').val(), _miTokenCurso:id_miTokenCurso, _comodinVarchar:$('#SpDenoCurso').html(), _comodinInt:0, _rows:0, _accion:"insertar", '_token':$('input[name="_token"]').val()}
+        informacionHorario();
+
+        $('.btnAgregarHorario').prop("disabled", true);
+    });
+
+    var accionHorario=0;
+    $('#cboTurnoHorario').on('change', function () {
+        var elTurno=$('#cboTurnoHorario').val().split('-');
+        valoresHorario={_idHorario:0, _turno:elTurno[0], _horaInicio:'01:00', _horaFinal:'02:00', _miTokenAula:'00', _comodinInt:0, _rows:0, _accion:"listar", '_token':$('input[name="_token"]').val()}
+        informacionHorario();
+    });
+
+    function addListaHorario(array){
+        if(accionHorario==0){
+            for (let i = 0; i < array.length; i++) {
+                var laHoraInicio=array[i].horaInicio.split(':'), laHoraFinal=array[i].horaFinal.split(':');
+
+                $('#td_'+array[i].diaSemana).append
+                ('<div class="horario p-1 animate__animated animate__backInUp">'+
+                    '<small class="text-muted">Hora</small><br>'+
+                    '<h6>'+laHoraInicio[0]+":"+laHoraInicio[1]+' - '+laHoraFinal[0]+":"+laHoraFinal[1]+'</h6>'+
+                    '<small class="text-muted">Curso</small><br>'+
+                    '<h6>'+ acortarTexto(array[i].denoCurso) +'</h6>'+
+                '</div>');
+            }
+        }else if(accionHorario==1){
+            // $('#card_'+id_miTokenCurso).addClass('animate__bounce');
+            // $('#cursoDenominacion').html(array[0].denominacion);
+            // $('#cursoDescripcion').html(array[0].descripcion);
+        }else if(accionHorario==2){
+            // $('#card_'+id_miTokenCurso).addClass('animate__bounceOut');
+            // setTimeout(function() { $('#card_'+id_miTokenCurso).remove(); }, 1000);
+        }
+    }
+
+
+
+    function acortarTexto(texto, longitudMaxima) {
+        if (texto.length > longitudMaxima) {
+          return texto.substring(0, longitudMaxima) + '...';
+        } else {
+          return texto;
+        }
+    }
 });

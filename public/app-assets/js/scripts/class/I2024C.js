@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    
+    //
     var valores='';
     function informacion(){
         $('body').find('ix').hide();

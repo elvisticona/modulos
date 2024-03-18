@@ -8,7 +8,7 @@
         color: #7367F0 !important;
         box-shadow: 0 0 1px 0 #7367F0 !important;
         border-radius: 5px;
-    }
+    } 
     .micard{
         cursor: pointer;
     }
@@ -22,6 +22,19 @@
     .horario{
         background: #0f163a6b;
         border: solid 0.5px #706969;
+    }
+    .select2-container .select2-selection--single {
+        height: 40px;
+        border-radius: 5px;
+        border: solid 1px #7e7e7e;
+    }
+    .desborde{
+        overflow: hidden; /* Oculta el desbordamiento */
+        white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+        text-overflow: ellipsis; /* Añade puntos suspensivos al final del texto que no cabe */
+    }
+    #dtbHorario .table th, .table td{
+        vertical-align: top !important;
     }
 </style>
 @endsection
@@ -190,8 +203,6 @@ $ultimo_elemento = end($subcadenas);
                     </div>
                 </div>
             </form>
-
-
             <div class="divInicio">
                 <hr>
                 <div class="btn-group btn-block" role="group" aria-label="Basic example">
@@ -213,260 +224,131 @@ $ultimo_elemento = end($subcadenas);
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl" role="document">
         <div class="modal-content" style="border: solid 1px #818181;border-radius: 2px;">
             <div class="modal-header" style="border-radius: initial;">
+                <h4 class="modal-title desborde" id="myModalLabel19">Horario del curso <br>
+                    <div class="badge badge-square badge-primary">
+                        <i class="fa fa-book"></i>
+                        <span id="SpDenoCurso"></span>
+                    </div>
+                </h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
             <div class="modal-body p-0">
-                <ul class="nav nav-tabs nav-fill" role="tablist">
-                    <li class="nav-item">
-                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" aria-controls="home" role="tab" aria-selected="true">Configurar docente</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" aria-controls="profile" role="tab" aria-selected="false">Configurar horario</a>
-                    </li>
-                </ul>    
-                <div class="tab-content">
-                    <div class="tab-pane active" id="home" aria-labelledby="home-tab" role="tabpanel" style="background-color: transparent;">
-                        
-                        <div id="listaAulasDocente" class="p-1"></div>
-
-                    </div>
-                    <div class="tab-pane" id="profile" aria-labelledby="profile-tab" role="tabpanel" style="background-color: transparent;">
-
-
-                    <form id="formUsuario" autocomplete="off">
-                        <div class="formulario mb-1" style="">
-                            <div class="bd-example-row">
-                                <div class="row m-0">
-                                    <div class="col-6 col-sm-4 p-0">
-                                        <fieldset class="form-group position-relative has-icon-left m-0">
-                                            <input type="text" id="txtCurso" class="form-control" placeholder="Matematicas" readonly="readonly" style="opacity: initial;">
-                                            <div class="form-control-position">
-                                            <i class="fa fa-book"></i>
-                                            </div>
-                                            <!-- <ix class="_name feather icon-info cursor-pointer filtros animate__animated animate__bounce" data-toggle="tooltip" data-placement="top" title="" data-original-title="" style="display: none;"></ix> -->
-                                        </fieldset>
-                                    </div>
-                                    <div class="col-6 col-sm-4 p-0">
-                                        <fieldset id="txtCboAula" class="form-group position-relative has-icon-left m-0">
-                                            <select class="form-control" id="cboTipoUsuario">
-                                                <option value="">Matematicas comunicacion fisica</option>
-                                                <option value="Director">Matematicas comunicacion fisica/a.</option>
-                                                <option value="Secretario">Matematicas comunicacion fisica/a.</option>
-                                                <option value="Docente">DMatematicas comunicacion fisicaocente.</option>
-                                                <option value="Auxiliar">Matematicas comunicacion fisica.</option>
-                                                <option value="Alumno">Matematicas comunicacion fisica/a.</option>
-                                            </select>
-                                            <div class="form-control-position">                                                
-                                                <i class="fa fa-map-marker" style="color: #C2C6DC;"></i>
-                                            </div>
-                                            <!-- <ix class="_tipo feather icon-info cursor-pointer filtros animate__animated animate__bounce" data-toggle="tooltip" data-placement="top" title="" data-original-title="" style="display: none;"></ix> -->
-                                        </fieldset>
-                                    </div>
-                                    <div class="col-12 col-sm-4 p-0">
-                                        <fieldset id="txtCboAula" class="form-group position-relative has-icon-left m-0">
-                                            <select class="form-control" id="cboTipoUsuario">
-                                                <option value="">Turno</option>
-                                                <option value="Director">Mañana</option>
-                                                <option value="Secretario">Tarde</option>
-                                                <option value="Docente">Noche</option>
-                                            </select>
-                                            <div class="form-control-position">
-                                                <i class="feather icon-sliders" style="color: #C2C6DC;"></i>
-                                            </div>
-                                            <!-- <ix class="_tipo feather icon-info cursor-pointer filtros animate__animated animate__bounce" data-toggle="tooltip" data-placement="top" title="" data-original-title="" style="display: none;"></ix> -->
-                                        </fieldset>
-                                    </div>
-                                    <div class="col-6 col-sm-3 p-0">
-                                        <fieldset class="form-group position-relative has-icon-left m-0">
-                                            <input type="time" id="appt" name="appt" min="09:00" max="18:00" class="form-control" />
-                                            <div class="form-control-position">
-                                                <i class="feather icon-user"></i>
-                                            </div>
-                                            <!-- <ix class="_name feather icon-info cursor-pointer filtros animate__animated animate__bounce" data-toggle="tooltip" data-placement="top" title="" data-original-title="" style="display: none;"></ix> -->
-                                        </fieldset>
-                                    </div>
-                                    <div class="col-6 col-sm-2 p-0">
-                                        <fieldset class="form-group position-relative has-icon-left m-0">
-                                            <input type="time" id="appt" name="appt" min="09:00" max="18:00" class="form-control" />
-                                            <div class="form-control-position">
-                                                <i class="feather icon-user"></i>
-                                            </div>
-                                            <!-- <ix class="_name feather icon-info cursor-pointer filtros animate__animated animate__bounce" data-toggle="tooltip" data-placement="top" title="" data-original-title="" style="display: none;"></ix> -->
-                                        </fieldset>
-                                    </div>
-                                    <div class="col-2 col-sm-1 col-md-1 p-0">
-                                        <div class="form-control">
-                                            <fieldset>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" name="customCheck" id="lunes">
-                                                    <label class="custom-control-label" for="lunes">Lu.</label>
-                                                </div>
-                                            </fieldset>
+            
+                <form id="formUsuarioHorario" autocomplete="off">
+                    <div class="formUsuarioHorario mb-1" style="">
+                        <div class="bd-example-row">
+                            <div class="row m-0">
+                                <div class="col-6 col-sm-3 p-0">
+                                    <fieldset class="form-group position-relative has-icon-left m-0">
+                                        <select class="form-control" id="cboTurnoHorario">
+                                        </select>
+                                        <div class="form-control-position">
+                                            <i class="feather icon-clock" style="color: #C2C6DC;"></i>
                                         </div>
-                                    </div>
-                                    <div class="col-2 col-sm-1 col-md-1 p-0">
-                                        <div class="form-control">
-                                            <fieldset>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" name="customCheck" id="martes">
-                                                    <label class="custom-control-label" for="martes">Ma.</label>                                                    
-                                                </div>
-                                            </fieldset>
+                                        <ix class="_turno feather icon-info cursor-pointer filtros animate__animated animate__bounce" data-toggle="tooltip" data-placement="top" title="" data-original-title="" style="display: none;"></ix>
+                                    </fieldset>
+                                </div>
+                                <div class="col-6 col-sm-3 p-0">
+                                    <fieldset class="form-group position-relative has-icon-left m-0">
+                                        <select class="form-control" id="cboAula">
+                                        </select>
+                                        <div class="form-control-position">                                                
+                                            <i class="fa fa-map-marker" style="color: #C2C6DC;"></i>
                                         </div>
-                                    </div>
-                                    <div class="col-2 col-sm-1 col-md-1 p-0">
-                                        <div class="form-control">
-                                            <fieldset>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" name="customCheck" id="miiercoles">
-                                                    <label class="custom-control-label" for="miiercoles">Mi.</label>                                                    
-                                                </div>
-                                            </fieldset>
+                                        <ix class="_miTokenAulaH feather icon-info cursor-pointer filtros animate__animated animate__bounce" data-toggle="tooltip" data-placement="top" title="" data-original-title="" style="display: none;"></ix>
+                                    </fieldset>
+                                </div>
+                                <div class="col-6 col-sm-3 p-0">
+                                    <fieldset class="form-group position-relative has-icon-left m-0">
+                                        <input type="time" id="txtHoraInicio" name="appt" min="06:00" max="23:00" class="form-control" />
+                                        <div class="form-control-position">
+                                            <i class="feather">Ini.</i>
                                         </div>
-                                    </div>
-                                    <div class="col-2 col-sm-1 col-md-1 p-0">
-                                        <div class="form-control">
-                                            <fieldset>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" name="customCheck" id="jueves">
-                                                    <label class="custom-control-label" for="jueves">Ju.</label>                                                    
-                                                </div>
-                                            </fieldset>
+                                        <ix class="_horaInicio feather icon-info cursor-pointer filtros animate__animated animate__bounce" data-toggle="tooltip" data-placement="top" title="" data-original-title="" style="display: none;"></ix>
+                                    </fieldset>
+                                </div>
+                                <div class="col-6 col-sm-3 p-0">
+                                    <fieldset class="form-group position-relative has-icon-left m-0">
+                                        <input type="time" id="txtHoraFinal" name="appt" min="06:00" max="23:00" class="form-control" />
+                                        <div class="form-control-position">
+                                            <i class="feather">Fin.</i>
                                         </div>
+                                        <ix class="_horaFinal feather icon-info cursor-pointer filtros animate__animated animate__bounce" data-toggle="tooltip" data-placement="top" title="" data-original-title="" style="display: none;"></ix>
+                                    </fieldset>
+                                </div>
+                                <div class="col-12 p-0">
+                                    <div id="DiasSemana" class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
+                                        <label class="Lunes btn btn-outline-dark waves-effect p-75">
+                                            <input id="Lunes" type="checkbox" class="btnAgregarHorario">
+                                            <span class="d-none d-md-block">Lunes</span>
+                                            <span class="d-sm-block d-md-none">Lu.</span>
+                                        </label>
+                                        <label class="Martes btn btn-outline-dark waves-effect p-75">
+                                            <input id="Martes" type="checkbox" class="btnAgregarHorario">
+                                            <span class="d-none d-md-block">Martes</span>
+                                            <span class="d-sm-block d-md-none">Ma.</span>
+                                        </label>
+                                        <label class="Miercoles btn btn-outline-dark waves-effect p-75">
+                                            <input id="Miercoles" type="checkbox" class="btnAgregarHorario">
+                                            <span class="d-none d-md-block">Miércoles</span>
+                                            <span class="d-sm-block d-md-none">Mi.</span>
+                                        </label>
+                                        <label class="Jueves btn btn-outline-dark waves-effect p-75">
+                                            <input id="Jueves" type="checkbox" class="btnAgregarHorario">
+                                            <span class="d-none d-md-block">Jueves</span>
+                                            <span class="d-sm-block d-md-none">Ju.</span>
+                                        </label>
+                                        <label class="Viernes btn btn-outline-dark waves-effect p-75">
+                                            <input id="Viernes" type="checkbox" class="btnAgregarHorario">
+                                            <span class="d-none d-md-block">Viernes</span>
+                                            <span class="d-sm-block d-md-none">Vi.</span>
+                                        </label>
+                                        <label class="Sabado btn btn-outline-dark waves-effect p-75">
+                                            <input id="Sabado" type="checkbox" class="btnAgregarHorario">
+                                            <span class="d-none d-md-block">Sábado</span>
+                                            <span class="d-sm-block d-md-none">Sá.</span>
+                                        </label>
+                                        <label class="Domingo btn btn-outline-dark waves-effect p-75">
+                                            <input id="Domingo" type="checkbox" class="btnAgregarHorario">
+                                            <span class="d-none d-md-block">Domingo</span>
+                                            <span class="d-sm-block d-md-none">Do.</span>
+                                        </label>
                                     </div>
-                                    <div class="col-2 col-sm-1 col-md-1 p-0">
-                                        <div class="form-control">
-                                            <fieldset>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" name="customCheck" id="viernes">
-                                                    <label class="custom-control-label" for="viernes">Vi.</label>                                                    
-                                                </div>
-                                            </fieldset>
-                                        </div>
-                                    </div>
-                                    <div class="col-2 col-sm-1 col-md-1 p-0">
-                                        <div class="form-control">
-                                            <fieldset>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" name="customCheck" id="sabado">
-                                                    <label class="custom-control-label" for="sabado">Sa.</label>                                                    
-                                                </div>
-                                            </fieldset>
-                                        </div>
-                                    </div>
-                                    <div class="col-2 col-sm-1 col-md-1 p-0">
-                                        <div class="form-control">
-                                            <fieldset>
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" name="customCheck" id="domingo">
-                                                    <label class="custom-control-label" for="domingo">Do.</label>                                                    
-                                                </div>
-                                            </fieldset>
-                                        </div>
-                                    </div>
-
                                 </div>
                             </div>
                         </div>
-                    </form>
-
-<hr>
-
-                        <div class="table-responsive">
-                            <table class="table table-bordered mb-0">
-                                <thead>
-                                    <tr>
-                                        <th>DOMINGO</th>
-                                        <th>LUNES</th>
-                                        <th>MARTES</th>
-                                        <th>MIÉRCOLES</th>
-                                        <th>JUEVES</th>
-                                        <th>VIERNES</th>
-                                        <th>SÁBADO</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td id="" class="p-0"></td>
-                                        <td id="" class="p-0">
-                                            <div class="horario p-1">
-                                                <small class="text-muted">Hora</small><br>
-                                                <h6>07:00 - 08:00</h6>
-                                                <small class="text-muted">Curso</small><br>
-                                                <h6>Matematicas comunicacion fisica religion</h6>
-                                            </div>
-                                            <div class="horario p-1">
-                                                <small class="text-muted">Hora</small><br>
-                                                <h6>07:00 - 08:00</h6>
-                                                <small class="text-muted">Curso</small><br>
-                                                <h6>Matematicas comunicacion fisica religion</h6>
-                                            </div>
-                                        </td>
-                                        <td id="" class="p-0">
-                                        <div class="horario p-1">
-                                                <small class="text-muted">Hora</small><br>
-                                                <h6>07:00 - 08:00</h6>
-                                                <small class="text-muted">Curso</small><br>
-                                                <h6>Matematicas comunicacion fisica religion</h6>
-                                            </div>
-                                            <div class="horario p-1">
-                                                <small class="text-muted">Hora</small><br>
-                                                <h6>07:00 - 08:00</h6>
-                                                <small class="text-muted">Curso</small><br>
-                                                <h6>Matematicas comunicacion fisica religion</h6>
-                                            </div>
-                                        </td>
-                                        <td id="" class="p-0">
-                                        <div class="horario p-1">
-                                                <small class="text-muted">Hora</small><br>
-                                                <h6>07:00 - 08:00</h6>
-                                                <small class="text-muted">Curso</small><br>
-                                                <h6>Matematicas comunicacion fisica religion</h6>
-                                            </div>
-                                            <div class="horario p-1">
-                                                <small class="text-muted">Hora</small><br>
-                                                <h6>07:00 - 08:00</h6>
-                                                <small class="text-muted">Curso</small><br>
-                                                <h6>Matematicas comunicacion fisica religion</h6>
-                                            </div>
-                                        </td>
-                                        <td id="" class="p-0">
-                                        <div class="horario p-1">
-                                                <small class="text-muted">Hora</small><br>
-                                                <h6>07:00 - 08:00</h6>
-                                                <small class="text-muted">Curso</small><br>
-                                                <h6>Matematicas comunicacion fisica religion</h6>
-                                            </div>
-                                            <div class="horario p-1">
-                                                <small class="text-muted">Hora</small><br>
-                                                <h6>07:00 - 08:00</h6>
-                                                <small class="text-muted">Curso</small><br>
-                                                <h6>Matematicas comunicacion fisica religion</h6>
-                                            </div>
-                                        </td>
-                                        <td id="" class="p-0">
-                                        <div class="horario p-1">
-                                                <small class="text-muted">Hora</small><br>
-                                                <h6>07:00 - 08:00</h6>
-                                                <small class="text-muted">Curso</small><br>
-                                                <h6>Matematicas comunicacion fisica religion</h6>
-                                            </div>
-                                            <div class="horario p-1">
-                                                <small class="text-muted">Hora</small><br>
-                                                <h6>07:00 - 08:00</h6>
-                                                <small class="text-muted">Curso</small><br>
-                                                <h6>Matematicas comunicacion fisica religion</h6>
-                                            </div>
-                                        </td>
-                                        <td id="" class="p-0"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
                     </div>
+                </form>
+                <hr>
+                <div class="table-responsive">
+                    <table id="dtbHorario" class="table table-bordered mb-0">
+                        <thead>
+                            <tr>
+                                <th>DOMINGO</th>
+                                <th>LUNES</th>
+                                <th>MARTES</th>
+                                <th>MIÉRCOLES</th>
+                                <th>JUEVES</th>
+                                <th>VIERNES</th>
+                                <th>SÁBADO</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td id="td_Domingo" class="p-0"></td>
+                                <td id="td_Lunes" class="p-0"></td>
+                                <td id="td_Martes" class="p-0"></td>
+                                <td id="td_Miercoles" class="p-0"></td>
+                                <td id="td_Jueves" class="p-0"></td>
+                                <td id="td_Viernes" class="p-0"></td>
+                                <td id="td_Sabado" class="p-0"></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
+                   
             </div>
         </div>
     </div>
@@ -497,6 +379,11 @@ $ultimo_elemento = end($subcadenas);
         <ul id="ulAulas" class="list-group list-group-flush customer-info"></ul>
     </div>
 </div>
+
+
+
+
+
 @endsection
 
 @section('jsContent')
