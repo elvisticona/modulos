@@ -36,6 +36,10 @@
     #dtbHorario .table th, .table td{
         vertical-align: top !important;
     }
+    input[type="time" i]::-webkit-calendar-picker-indicator{
+        filter: invert(100%);
+        cursor: pointer;
+    }
 </style>
 @endsection
 
@@ -237,7 +241,7 @@ $ultimo_elemento = end($subcadenas);
             <div class="modal-body p-0">
             
                 <form id="formUsuarioHorario" autocomplete="off">
-                    <div class="formUsuarioHorario mb-1" style="">
+                    <div class="formUsuarioHorario mb-0" style="">
                         <div class="bd-example-row">
                             <div class="row m-0">
                                 <div class="col-6 col-sm-3 p-0">
@@ -280,37 +284,37 @@ $ultimo_elemento = end($subcadenas);
                                 </div>
                                 <div class="col-12 p-0">
                                     <div id="DiasSemana" class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
-                                        <label class="Lunes btn btn-outline-dark waves-effect p-75">
+                                        <label class="Lunes checkboxCheck btn btn-outline-dark waves-effect p-75">
                                             <input id="Lunes" type="checkbox" class="btnAgregarHorario">
                                             <span class="d-none d-md-block">Lunes</span>
                                             <span class="d-sm-block d-md-none">Lu.</span>
                                         </label>
-                                        <label class="Martes btn btn-outline-dark waves-effect p-75">
+                                        <label class="Martes checkboxCheck btn btn-outline-dark waves-effect p-75">
                                             <input id="Martes" type="checkbox" class="btnAgregarHorario">
                                             <span class="d-none d-md-block">Martes</span>
                                             <span class="d-sm-block d-md-none">Ma.</span>
                                         </label>
-                                        <label class="Miercoles btn btn-outline-dark waves-effect p-75">
+                                        <label class="Miercoles checkboxCheck btn btn-outline-dark waves-effect p-75">
                                             <input id="Miercoles" type="checkbox" class="btnAgregarHorario">
                                             <span class="d-none d-md-block">Miércoles</span>
                                             <span class="d-sm-block d-md-none">Mi.</span>
                                         </label>
-                                        <label class="Jueves btn btn-outline-dark waves-effect p-75">
+                                        <label class="Jueves checkboxCheck btn btn-outline-dark waves-effect p-75">
                                             <input id="Jueves" type="checkbox" class="btnAgregarHorario">
                                             <span class="d-none d-md-block">Jueves</span>
                                             <span class="d-sm-block d-md-none">Ju.</span>
                                         </label>
-                                        <label class="Viernes btn btn-outline-dark waves-effect p-75">
+                                        <label class="Viernes checkboxCheck btn btn-outline-dark waves-effect p-75">
                                             <input id="Viernes" type="checkbox" class="btnAgregarHorario">
                                             <span class="d-none d-md-block">Viernes</span>
                                             <span class="d-sm-block d-md-none">Vi.</span>
                                         </label>
-                                        <label class="Sabado btn btn-outline-dark waves-effect p-75">
+                                        <label class="Sabado checkboxCheck btn btn-outline-dark waves-effect p-75">
                                             <input id="Sabado" type="checkbox" class="btnAgregarHorario">
                                             <span class="d-none d-md-block">Sábado</span>
                                             <span class="d-sm-block d-md-none">Sá.</span>
                                         </label>
-                                        <label class="Domingo btn btn-outline-dark waves-effect p-75">
+                                        <label class="Domingo checkboxCheck btn btn-outline-dark waves-effect p-75">
                                             <input id="Domingo" type="checkbox" class="btnAgregarHorario">
                                             <span class="d-none d-md-block">Domingo</span>
                                             <span class="d-sm-block d-md-none">Do.</span>
@@ -321,7 +325,8 @@ $ultimo_elemento = end($subcadenas);
                         </div>
                     </div>
                 </form>
-                <hr>
+                <hr class="mt-0 mb-2">
+                <h3 class="text-bold-400">Horario.</h3>
                 <div class="table-responsive">
                     <table id="dtbHorario" class="table table-bordered mb-0">
                         <thead>

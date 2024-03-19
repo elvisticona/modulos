@@ -300,6 +300,8 @@ $(document).ready(function() {
     var vermodal=0;
     $('#listaCard').on('click', 'button.btnConfigurar', function () {
         vermodal=1;
+        $('#cboTurnoHorario, #txtHoraInicio, #txtHoraFinal').val('');
+        $('#dtbHorario td').html("");
     });
 
     var mi_idAula=0;
@@ -398,11 +400,23 @@ $(document).ready(function() {
         $('.btnAgregarHorario').prop("disabled", true);
     });
 
-    var accionHorario=0;
+    var limiteTime="00:00";
     $('#cboTurnoHorario').on('change', function () {
-        var elTurno=$('#cboTurnoHorario').val().split('-');
-        valoresHorario={_idHorario:0, _turno:elTurno[0], _horaInicio:'01:00', _horaFinal:'02:00', _miTokenAula:'00', _comodinInt:0, _rows:0, _accion:"listar", '_token':$('input[name="_token"]').val()}
-        informacionHorario();
+        limiteTime=$(this).val().split('-');
+        $('#cboAula').val(''); $('.checkboxCheck').removeClass('active');
+        $('#txtHoraInicio, #txtHoraFinal').val('');
+    });
+
+    var accionHorario=0;
+    $('#cboAula').on('change', function () {
+        if($('#cboTurnoHorario').val()!=""){
+            var elTurno=$('#cboTurnoHorario').val().split('-');
+            valoresHorario={_idHorario:0, _turno:elTurno[0], _horaInicio:'01:00', _horaFinal:'02:00', _miTokenAula:$(this).val(), _comodinInt:0, _rows:0, _accion:"listar", '_token':$('input[name="_token"]').val()}
+            informacionHorario();
+            $('.checkboxCheck').removeClass('active');
+        }else{
+            toastr.warning("Seleccione un turno");
+        }
     });
 
     function addListaHorario(array){
@@ -411,12 +425,25 @@ $(document).ready(function() {
                 var laHoraInicio=array[i].horaInicio.split(':'), laHoraFinal=array[i].horaFinal.split(':');
 
                 $('#td_'+array[i].diaSemana).append
-                ('<div class="horario p-1 animate__animated animate__backInUp">'+
+                ('<div id="'+laHoraInicio[0]+":"+laHoraInicio[1]+'" class="horario p-1 animate__animated animate__fadeIn">'+
                     '<small class="text-muted">Hora</small><br>'+
                     '<h6>'+laHoraInicio[0]+":"+laHoraInicio[1]+' - '+laHoraFinal[0]+":"+laHoraFinal[1]+'</h6>'+
                     '<small class="text-muted">Curso</small><br>'+
                     '<h6>'+ acortarTexto(array[i].denoCurso) +'</h6>'+
                 '</div>');
+
+                var divs = $('#td_'+array[i].diaSemana+" div").toArray();
+                divs.sort(function(a, b) {
+                    var horaA = $(a).attr('id').split(':').join('');
+                    var horaB = $(b).attr('id').split(':').join('');
+                    return horaA - horaB;
+                });
+
+                // $('#td_'+array[i].diaSemana).empty();
+                for (var k = 0; k < divs.length; k++) {
+                    $('#td_'+array[i].diaSemana).append(divs[k]);
+                }
+
             }
         }else if(accionHorario==1){
             // $('#card_'+id_miTokenCurso).addClass('animate__bounce');
@@ -428,7 +455,16 @@ $(document).ready(function() {
         }
     }
 
-
+    $('#txtHoraInicio, #txtHoraFinal').on('change', function () {
+        if($('#txtHoraInicio').val()<limiteTime[1]){
+            toastr.error("La hora de Inicio no debe ser menor que: "+limiteTime[1], 'Error!');
+            $(this).val(limiteTime[1]);
+        }else if($('#txtHoraFinal').val()>limiteTime[2]){
+            toastr.error("La hora de Final no debe ser mayor que: "+limiteTime[2], 'Error!');
+            $(this).val(limiteTime[2]);
+        }
+        $('.checkboxCheck').removeClass('active');
+    });
 
     function acortarTexto(texto, longitudMaxima) {
         if (texto.length > longitudMaxima) {
